@@ -1,0 +1,75 @@
+﻿@model EventEase.Models.Venue
+
+@{
+    ViewData["Title"] = "Edit Venue";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="VenueId" />
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="VenueName" class="control-label"></label>
+                <input asp-for="VenueName" class="form-control" />
+                <span asp-validation-for="VenueName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Capacity" class="control-label"></label>
+                <input asp-for="Capacity" class="form-control" />
+                <span asp-validation-for="Capacity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Availability" class="control-label"></label>
+                <select asp-for="Availability" class="form-control">
+                    <option value="Available">True</option>
+                    <option value="Unavailable">False</option>
+                </select>
+                <span asp-validation-for="Availability" class="text-danger"></span>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ImageURL))
+            {
+                <div class="mb-3">
+                    <p>Current Image:</p>
+                    <img src="@Model.ImageURL" alt="Venue Image" class="img-thumbnail" />
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="deleteImage" class="form-check-input" id="deleteImage" />
+                    <label class="form-check-label" for="deleteImage">Delete existing image</label>
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="ImageURL" class="control-label">Upload New Image</label>
+                <input type="file" name="imageFile" class="form-control-file" />
+                <span asp-validation-for="ImageURL" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

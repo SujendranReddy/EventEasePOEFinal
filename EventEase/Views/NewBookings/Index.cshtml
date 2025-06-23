@@ -1,0 +1,100 @@
+﻿@model IEnumerable<EventEase.Models.Booking>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Bookings List";
+}
+
+<h1 class="mb-4">Bookings</h1>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="form-row">
+        <div class="form-group col-md-6 col-lg-4">
+            <label for="searchQuery">Search</label>
+            <input type="text" name="searchQuery" class="form-control"
+                   placeholder="Booking ID or Event Name..."
+                   value="@ViewData["CurrentSearch"]" />
+        </div>
+
+        <div class="form-group col-md-6 col-lg-3">
+            <label for="eventTypeId">Event Type</label>
+            <select name="eventTypeId" class="form-control" asp-items="@(ViewData["EventTypeId"] as SelectList)">
+                <option value="">All Event Types</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-6 col-lg-3">
+            <label for="venueAvailable">Availability</label>
+            <select name="venueAvailable" class="form-control">
+                <option value="">Any Availability</option>
+                <option value="true" selected="@(ViewData["CurrentAvailable"]?.ToString() == "True")">Available</option>
+                <option value="false" selected="@(ViewData["CurrentAvailable"]?.ToString() == "False")">Unavailable</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-6 col-lg-2">
+            <label for="dateFrom">From</label>
+            <input type="date" name="dateFrom" class="form-control" value="@ViewData["DateFrom"]" />
+        </div>
+
+        <div class="form-group col-md-6 col-lg-2">
+            <label for="dateTo">To</label>
+            <input type="date" name="dateTo" class="form-control" value="@ViewData["DateTo"]" />
+        </div>
+
+        <div class="form-group col-12 text-right align-self-end mt-2">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
+<hr />
+
+@foreach (var booking in Model)
+{
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-light">
+            <strong>Booking ID:</strong> @booking.BookingId
+        </div>
+
+        <div class="card-body">
+            <!-- Booking Info -->
+            <section class="mb-3">
+                <h5 class="text-primary">Booking Information</h5>
+                <p><strong>Booking Date:</strong> @booking.BookingDate.ToString("yyyy-MM-dd")</p>
+            </section>
+
+            <hr />
+
+            <!-- Event Info -->
+            <section class="mb-3">
+                <h5 class="text-success">Event Information</h5>
+                <p><strong>Event Name:</strong> @booking.Event.EventName</p>
+                <p><strong>Event Date:</strong> @booking.Event.EventDate.ToString("yyyy-MM-dd")</p>
+                <p><strong>Description:</strong> @booking.Event.Description</p>
+                <p><strong>Event Type:</strong> @booking.Event.EventType?.EventTypeName</p>
+            </section>
+
+            <hr />
+
+            <!-- Venue Info -->
+            <section class="mb-3">
+                <h5 class="text-info">Venue Information</h5>
+                <p><strong>Venue Name:</strong> @booking.Venue.VenueName</p>
+                <p><strong>Location:</strong> @booking.Venue.Location</p>
+                <p><strong>Capacity:</strong> @booking.Venue.Capacity</p>
+                <p><strong>Availability:</strong> @(booking.Venue.Availability == true ? "Available" : "Unavailable")</p>
+
+                @if (!string.IsNullOrEmpty(booking.Venue.ImageURL))
+                {
+                    <div style="width: 100%; max-width: 400px;">
+                        <img src="@booking.Venue.ImageURL"
+                             alt="Venue Image"
+                             class="img-fluid rounded"
+                             style="height: 200px; object-fit: cover;" />
+                    </div>
+                }
+            </section>
+        </div>
+    </div>
+}

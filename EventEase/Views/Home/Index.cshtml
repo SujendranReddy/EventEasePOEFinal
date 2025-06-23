@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Dashboard - EventEase";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to EventEase</h1>
+    <p class="lead">Your one-stop solution to manage venues, events, and bookings efficiently.</p>
+
+    <!-- Buttons for Create or Edit Actions -->
+    <div class="mt-5">
+        <h2>Manage Your Resources</h2>
+        <p>Choose an option below to get started:</p>
+        <div class="mt-4">
+            <a href="@Url.Action("Create", "Venues")" class="btn btn-primary mx-2">Create Venues</a>
+            <a href="@Url.Action("Create", "Events")" class="btn btn-light mx-2">Create Events</a>
+            <a href="@Url.Action("Create", "Bookings")" class="btn btn-info mx-2">Create Bookings</a>
+        </div>
+    </div>
+</div>

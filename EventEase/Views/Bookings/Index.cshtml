@@ -1,0 +1,82 @@
+﻿@* File: Views/Bookings/Index.cshtml *@
+@model IEnumerable<EventEase.Models.Booking>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<h1>Bookings</h1>
+
+<form method="get" asp-action="Index" class="mb-4">
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label for="venueId">Venues</label>
+            <select id="venueId"
+                    name="venueId"
+                    asp-items="ViewBag.Venues"
+                    class="form-control">
+                <option value="">All Venues</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="startDate">Start Date</label>
+            <input type="date"
+                   id="startDate"
+                   name="startDate"
+                   class="form-control"
+                   value="@ViewBag.StartDate" />
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="endDate">End Date</label>
+            <input type="date"
+                   id="endDate"
+                   name="endDate"
+                   class="form-control"
+                   value="@ViewBag.EndDate" />
+        </div>
+
+        <div class="form-group col-md-3 align-self-end">
+            <button type="submit" class="btn btn-primary mr-2">Filter</button>
+            <a asp-action="Index" class="btn btn-secondary">Reset</a>
+        </div>
+    </div>
+</form>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.First().BookingDate)</th>
+            <th>@Html.DisplayNameFor(m => m.First().Venue.VenueName)</th>
+            <th>@Html.DisplayNameFor(m => m.First().Event.EventName)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.BookingDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.Venue?.VenueName</td>
+                <td>@item.Event?.EventName</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.BookingId" class="btn btn-sm btn-primary">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.BookingId" class="btn btn-sm btn-info">
+                        <i class="fas fa-info-circle"></i> Details
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.BookingId" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
