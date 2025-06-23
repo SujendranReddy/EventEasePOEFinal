@@ -1,10 +1,11 @@
 ﻿@model EventEase.Models.Venue
 
 @{
-    ViewData["Title"] = "Create Venue";
+    ViewData["Title"] = "Create";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Create</h1>
+<h4>Venue</h4>
 <hr />
 
 <div class="row">
@@ -35,8 +36,8 @@
             <div class="form-group">
                 <label asp-for="Availability" class="control-label"></label>
                 <select asp-for="Availability" class="form-control">
-                    <option value="Available">True</option>
-                    <option value="Unavailable">False</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
                 </select>
                 <span asp-validation-for="Availability" class="text-danger"></span>
             </div>
